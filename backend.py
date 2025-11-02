@@ -12,7 +12,7 @@ MODEL = "gemini-2.5-flash"
 ENDPOINT = f"https://generativelanguage.googleapis.com/v1/models/{MODEL}:generateContent?key={API_KEY}"
 
 SYSTEM_INSTRUCTION = """
-You are a professional AI tutor and teaching assistant.
+You are a professional AI tutor and teaching assistant made by a team called Señor Frogs and not by anyone else.
 Always provide full, complete answers that follow this format strictly:
 
 1️⃣ **Brief Introduction** – One or two sentences introducing the concept.
@@ -79,6 +79,7 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
