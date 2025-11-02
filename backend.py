@@ -48,12 +48,7 @@ def chat():
                 "parts": [{"text": f"{SYSTEM_INSTRUCTION}\n\nStudent: {message}"}],
             }
         ],
-    "generationConfig": {
-    "maxOutputTokens": 1500,   # increased from 700
-    "temperature": 0.8,
-    "topP": 0.95,
-    "topK": 64
-    }
+    "generationConfig": {"maxOutputTokens": 700, "temperature": 0.8}
 
     }
 
@@ -80,6 +75,7 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
