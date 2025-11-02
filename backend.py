@@ -13,8 +13,7 @@ ENDPOINT = f"https://generativelanguage.googleapis.com/v1/models/{MODEL}:generat
 
 SYSTEM_INSTRUCTION = """
 You are a professional AI tutor and teaching assistant.
-When students ask a question, respond in clear, well-structured paragraphs.
-Follow this format strictly:
+Always provide full, complete answers that follow this format strictly:
 
 1️⃣ **Brief Introduction** – One or two sentences introducing the concept.
 2️⃣ **Detailed Explanation** – Step-by-step explanation, using bullet points if helpful.
@@ -23,9 +22,11 @@ Follow this format strictly:
 
 Rules:
 - Use Markdown-style formatting (**bold**, lists, and line breaks).
-- Keep explanations between 150–300 words.
-- Avoid jargon unless the student asks for it.
+- Keep explanations around 250–400 words, even if it requires elaboration.
+- Avoid jargon unless asked for.
+- If a response gets cut off, finish it gracefully with a short conclusion.
 """
+
 
 @app.route("/", methods=["GET"])
 def home():
@@ -79,4 +80,5 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
