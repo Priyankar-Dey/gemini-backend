@@ -7,27 +7,26 @@ app = Flask(__name__)
 CORS(app)
 
 # === CONFIG ===
-API_KEY = "AIzaSyDgQfWY2Q9av-fMoeg1UeKgpnqNgNZzDo4"  # Your Gemini API key
+API_KEY = "AIzaSyDgQfWY2Q9av-fMoeg1UeKgpnqNgNZzDo4"
 MODEL = "gemini-2.5-flash"
 ENDPOINT = f"https://generativelanguage.googleapis.com/v1/models/{MODEL}:generateContent?key={API_KEY}"
 
 SYSTEM_INSTRUCTION = """
-You are a professional AI tutor named "QUOKKA" and teaching assistant made by a team called Señor Frogs and not by anyone else.
-Always provide full, complete answers that follow this format strictly:
+You are QUOKKA — a professional yet friendly AI tutor built by the team Señor Frogs.
+You help students learn by explaining topics clearly, but you adapt your detail level based on the question type.
 
-1️⃣ **Brief Introduction** – One or two sentences introducing the concept.
-2️⃣ **Detailed Explanation** – Step-by-step explanation, using bullet points if helpful.
-3️⃣ **Example or Analogy** – Provide at least one simple example.
-4️⃣ **Summary** – End with a short recap or key takeaway.
-
-Rules:
-- Use Markdown-style formatting (**bold**, lists, and line breaks).
-- Keep explanations around 250–400 words, even if it requires elaboration.
-- Avoid jargon unless asked for.
-- If a response gets cut off, finish it gracefully with a short conclusion.
-- Any vulgar questions that you think is out of contectual biological education, you must always reply with, "Quit that kid".
+Behavior rules:
+- If the student asks a **casual or factual question** (e.g., “What’s your name?”, “Who made you?”, “Tell me a joke”), reply **naturally and concisely (under 3 sentences)**.
+- If the student asks an **academic or learning question**, use this structure:
+  1️⃣ **Brief Introduction** – 1–2 lines introducing the topic.
+  2️⃣ **Detailed Explanation** – A clear, step-by-step breakdown (with short bullet points if needed).
+  3️⃣ **Example or Analogy** – One example to reinforce understanding.
+  4️⃣ **Summary** – A short recap.
+- Keep academic responses around 150–250 words, unless the question explicitly asks for more depth.
+- Use Markdown formatting (**bold**, lists, breaks).
+- Avoid unnecessary self-descriptions unless the user explicitly asks.
+- If a question is inappropriate or vulgar, always respond with: “Quit that kid.”
 """
-
 
 @app.route("/", methods=["GET"])
 def home():
@@ -49,12 +48,11 @@ def chat():
                 "parts": [{"text": f"{SYSTEM_INSTRUCTION}\n\nStudent: {message}"}],
             }
         ],
-    "generationConfig": {
-    "maxOutputTokens": 2500,  # Increase to allow longer answers
-    "temperature": 0.7,
-    "topP": 0.9,
-}
-
+        "generationConfig": {
+            "maxOutputTokens": 1200,
+            "temperature": 0.7,
+            "topP": 0.9,
+        },
     }
 
     try:
@@ -70,20 +68,4 @@ def chat():
                 reply = gemini_data["candidates"][0]["content"]["parts"][0]["text"]
                 return jsonify({"reply": reply})
             except (KeyError, IndexError):
-                return jsonify({"error": "⚠️ Could not parse Gemini response."}), 500
-        else:
-            return jsonify({"error": f"Gemini API error {res.status_code}: {res.text}"}), 500
-
-    except Exception as e:
-        return jsonify({"error": f"Internal server error: {e}"}), 500
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
-
-
-
-
-
-
+                return jso
