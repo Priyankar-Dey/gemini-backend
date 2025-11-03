@@ -68,4 +68,13 @@ def chat():
                 reply = gemini_data["candidates"][0]["content"]["parts"][0]["text"]
                 return jsonify({"reply": reply})
             except (KeyError, IndexError):
-                return jso
+                return jsonify({"error": "⚠️ Could not parse Gemini response."}), 500
+        else:
+            return jsonify({"error": f"Gemini API error {res.status_code}: {res.text}"}), 500
+
+    except Exception as e:
+        return jsonify({"error": f"Internal server error: {e}"}), 500
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
